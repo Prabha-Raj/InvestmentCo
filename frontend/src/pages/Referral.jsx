@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import axiosInstance from '../config/axiosConfig';
 import ReferralTree from '../components/ReferralTree';
 import { useAuth } from '../context/AuthContext';
 
@@ -11,7 +11,7 @@ const Referral = () => {
     useEffect(() => {
         const fetchTree = async () => {
             try {
-                const response = await axios.get('/api/referral/tree');
+                const response = await axiosInstance.get('/api/referral/tree');
                 setTree(response.data.tree);
             } catch (error) {
                 console.error('Error fetching tree:', error);

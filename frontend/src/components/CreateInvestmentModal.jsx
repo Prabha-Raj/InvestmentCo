@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import axios from 'axios';
+import axiosInstance from '../config/axiosConfig';
 
 const CreateInvestmentModal = ({ onClose, onSuccess }) => {
   const [amount, setAmount] = useState('');
@@ -22,7 +22,7 @@ const CreateInvestmentModal = ({ onClose, onSuccess }) => {
     setLoading(true);
 
     try {
-      await axios.post('/api/investment/create', {
+      await axiosInstance.post('/api/investment/create', {
         amount: parseFloat(amount),
         plan
       });

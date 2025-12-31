@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import axiosInstance from '../config/axiosConfig';
 import StatsCard from '../components/StatsCard';
 import { useAuth } from '../context/AuthContext';
 
@@ -9,7 +9,7 @@ const Wallet = () => {
 
     useEffect(() => {
         // Fetch dashboard data to get wallet stats
-        axios.get('/api/dashboard').then(res => setData(res.data)).catch(console.error);
+        axiosInstance.get('/api/dashboard').then(res => setData(res.data)).catch(console.error);
     }, []);
 
     return (

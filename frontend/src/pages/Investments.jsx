@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import axiosInstance from '../config/axiosConfig';
 import InvestmentsTable from '../components/InvestmentsTable';
 import CreateInvestmentModal from '../components/CreateInvestmentModal';
 
@@ -14,7 +14,7 @@ const Investments = () => {
 
   const fetchInvestments = async () => {
     try {
-      const response = await axios.get('/api/dashboard');
+      const response = await axiosInstance.get('/api/dashboard');
       // Assuming the dashboard endpoint returns investments. 
       // Ideally we would have a dedicated /api/investments endpoint, but I will use dashboard for now to avoid side-tracking.
       setInvestments(response.data.investments || []);

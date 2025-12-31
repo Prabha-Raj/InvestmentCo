@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import Sidebar from '../components/Sidebar';
-import axios from 'axios';
+import axiosInstance from '../config/axiosConfig';
 
 const DashboardLayout = () => {
     const { user, logout } = useAuth();
@@ -13,7 +13,7 @@ const DashboardLayout = () => {
     const handleSimulate = async () => {
         if (!confirm('Simulate 1 Day Passing?')) return;
         try {
-            await axios.post('/api/dashboard/simulate-roi');
+            await axiosInstance.post('/api/dashboard/simulate-roi');
             alert('Simulation complete! Page will reload.');
             window.location.reload();
         } catch (e) {

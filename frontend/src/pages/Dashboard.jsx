@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
-import axios from 'axios';
+import axiosInstance from '../config/axiosConfig';
 import StatsCard from '../components/StatsCard';
 import InvestmentsTable from '../components/InvestmentsTable';
 import ROIChat from '../components/ROIChart';
@@ -21,7 +21,7 @@ const Dashboard = () => {
 
   const fetchDashboardData = async () => {
     try {
-      const response = await axios.get('/api/dashboard');
+      const response = await axiosInstance.get('/api/dashboard');
       setDashboardData(response.data);
     } catch (error) {
       console.error('Error fetching dashboard data:', error);
@@ -32,7 +32,7 @@ const Dashboard = () => {
 
   const fetchReferralTree = async () => {
     try {
-      const response = await axios.get('/api/referral/tree');
+      const response = await axiosInstance.get('/api/referral/tree');
       setReferralTree(response.data.tree);
     } catch (error) {
       console.error('Error fetching referral tree:', error);
