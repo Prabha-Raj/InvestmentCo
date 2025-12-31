@@ -33,6 +33,7 @@ const Register = () => {
         toast.error(result.message || 'Registration failed. Please try again.');
       }
     } catch (error) {
+      console.log(error)
       toast.error(error.message || 'Registration failed.');
     } finally {
       setLoading(false);
