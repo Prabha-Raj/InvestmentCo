@@ -24,7 +24,27 @@ app.use(express.json());
 
 // Database connection
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/nexachain')
-  .then(() => console.log('MongoDB connected successfully'))
+  .then(async () => {
+    console.log('MongoDB connected successfully');
+
+    // Defensive: drop stale `mobile_1` unique index if it exists.
+    // Some older deployments created a unique index on `mobile`, which
+    // prevents inserting users with `mobile: null` (causes E11000).
+    try {
+      const db = mongoose.connection.db;
+      const coll = db.collection('users');
+      const indexes = await coll.indexes();
+      const hasMobileIndex = indexes.some(idx => idx.name === 'mobile_1');
+      if (hasMobileIndex) {
+        console.log('Found existing index `mobile_1` — dropping to avoid duplicate-null errors');
+        await coll.dropIndex('mobile_1');
+        console.log('Dropped index `mobile_1`.');
+      }
+    } catch (err) {
+      // Log but do not crash the server on index drop errors
+      console.error('Error checking/dropping mobile_1 index:', err);
+    }
+  })
   .catch(err => console.error('MongoDB connection error:', err));
 
 // Routes
